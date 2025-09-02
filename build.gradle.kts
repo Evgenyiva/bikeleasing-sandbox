@@ -28,17 +28,57 @@ application {
     mainClass.set("com.bikeleasing.biketrip.MainKt")
 }
 
+java {
+    sourceSets {
+        val main by getting
+
+        create("develop") {
+            java.srcDir("src/develop/kotlin")
+            resources.srcDir("src/develop/resources")
+
+            // develop-Klassen überschreiben main-Klassen
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+        }
+
+        create("staging") {
+            java.srcDir("src/staging/kotlin")
+            resources.srcDir("src/staging/resources")
+
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+        }
+
+        create("prod") {
+            java.srcDir("src/prod/kotlin")
+            resources.srcDir("src/prod/resources")
+
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+        }
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
 
 tasks.jar {
-    manifest {
-        attributes["Main-Class"] = "com.bikeleasing.biketrip.MainKt"
-    }
-
-    // Include all dependencies in the JAR
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.register<JavaExec>("runDevelop") {
+    classpath = sourceSets["develop"].runtimeClasspath
+    mainClass.set("com.bikeleasing.biketrip.MainKt")
+}
+
+tasks.register<JavaExec>("runStaging") {
+    classpath = sourceSets["staging"].runtimeClasspath
+    mainClass.set("com.bikeleasing.biketrip.MainKt")
+}
+
+tasks.register<JavaExec>("runProd") {
+    classpath = sourceSets["prod"].runtimeClasspath
+    mainClass.set("com.bikeleasing.biketrip.MainKt")
 }

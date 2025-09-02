@@ -6,7 +6,7 @@ We're pleased to have you here.
 This repository is designed to help you showcase your skills in a live pair-programming interview for a software engineer position.
 
 We thought to keep the setup simple and straightforward, so you can focus on the coding challenge without getting bogged down in setup details.
-At the core of the challenge is a [dataset of bike trips](./trips.csv), which you will be working with during the interview.
+At the core of the challenge is a [dataset of bike trips](src/main/kotlin/com/bikeleasing/biketrip/datastore/trips.csv), which you will be working with during the interview.
 
 ## Challenge Overview
 
